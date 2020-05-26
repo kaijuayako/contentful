@@ -1,4 +1,6 @@
 
+require('dotenv').config()
+
 export default {
   mode: 'universal',
   /*
@@ -28,6 +30,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    'plugins/contentful'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -41,7 +44,8 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Axios module configuration
@@ -49,6 +53,15 @@ export default {
   */
   axios: {
   },
+  /*
+  ** contentful
+  */
+  env: {
+    CTF_SPACE_ID: process.env.CTF_SPACE_ID,
+    CTF_BLOG_POST_TYPE_ID: process.env.CTF_BLOG_POST_TYPE_ID,
+    CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN
+  },
+
   /*
   ** Build configuration
   */

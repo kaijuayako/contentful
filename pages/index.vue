@@ -1,15 +1,37 @@
 <template>
-<v-layout column justify-center align-center>
-  <v-flex xs12 sm8 md6>
-    <div class="text-xs-center">
-      <h1>Hello Nuxt</h1>
-    </div>
-  </v-flex>
-</v-layout>
+  <v-container fluid>
+    <template v-if="posts.length">
+      <ul v-for="(post, i) in posts" :key="i">
+        <li>{{ post.fields.title }}</li>
+        <ul>
+          <img
+            :src="post.fields.image.fields.file.url"
+            :alt="post.fields.image.fields.title"
+            :aspect-ratio="16/9"
+            width="400"
+            height="225"
+          />
+          <li>{{ post.fields.body }}</li>
+          <li>{{ post.fields.publishDate }}</li>
+        </ul>
+      </ul>
+    </template>
+    <template v-else>
+      投稿された記事はありません
+    </template>
+  </v-container>
 </template>
 
 <script>
+import client from '~/plugins/contentful'
 export default {
-
+  async asyncData ({ env }) {
+    let posts = []
+    await client.getEntries({
+      content_type: env.CTF_BLOG_POST_TYPE_ID,
+      order: '-fields.publishDate'
+    }).then(res => (posts = res.items)).catch(console.error)
+    return { posts }
+  }
 }
 </script>
