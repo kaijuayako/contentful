@@ -3,17 +3,18 @@
     <template v-if="posts.length">
       <ul v-for="(post, i) in posts" :key="i">
         <li>{{ post.fields.title }}</li>
-        <ul>
+        <li>
           <img
-            :src="post.fields.image.fields.file.url"
+            :src="setEyeCatch(post).url"
             :alt="post.fields.image.fields.title"
             :aspect-ratio="16/9"
             width="400"
             height="225"
-          />
-          <li>{{ post.fields.body }}</li>
-          <li>{{ post.fields.publishDate }}</li>
-        </ul>
+          >
+        </li>
+        <li>{{ post.fields.body }}</li>
+        <li>{{ post.fields.publishDate }}</li>
+        <li><nuxt-link :to="linkTo(post)">この記事を見る</nuxt-link></li>
       </ul>
     </template>
     <template v-else>
@@ -23,8 +24,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import client from '~/plugins/contentful'
 export default {
+  computed: {
+    ...mapGetters(['setEyeCatch']),
+    linkTo: () => (obj) => {
+      return {
+        name: 'posts-slug',
+        params: {
+          slug: obj.fields.slug
+        }
+      }
+    }
+  },
   async asyncData ({ env }) {
     let posts = []
     await client.getEntries({
