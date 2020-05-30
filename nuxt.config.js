@@ -1,5 +1,6 @@
 
 require('dotenv').config()
+const client = require('./plugins/contentful').default
 
 export default {
   mode: 'universal',
@@ -62,7 +63,21 @@ export default {
     CTF_CDA_ACCESS_TOKEN: process.env.CTF_CDA_ACCESS_TOKEN,
     CTF_PREVIEW_ACCESS_TOKEN: process.env.CTF_PREVIEW_ACCESS_TOKEN
   },
-
+  generate: {
+    route() {
+      return Promise.all([
+        client.getEntries({
+          content_type: process.env.CTF_BLOG_POST_TYPE_ID
+        })
+      ]).then(( posts )=>{
+        return [
+          ...posts.items.map(post => {
+            return { route: `posts/${post.fields.slug}`, payload: post }
+          })
+        ]
+      })
+    }
+  },
   /*
   ** Build configuration
   */
