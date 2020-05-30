@@ -64,12 +64,12 @@ export default {
     CTF_PREVIEW_ACCESS_TOKEN: process.env.CTF_PREVIEW_ACCESS_TOKEN
   },
   generate: {
-    route() {
+    routes() {
       return Promise.all([
         client.getEntries({
           content_type: process.env.CTF_BLOG_POST_TYPE_ID
         })
-      ]).then(( posts )=>{
+      ]).then(([ posts ]) => {
         return [
           ...posts.items.map(post => {
             return { route: `posts/${post.fields.slug}`, payload: post }
