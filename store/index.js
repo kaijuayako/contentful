@@ -13,5 +13,10 @@ export const getters = {
         title: 'defaultImage'
       }
     }
+  },
+  draftChip: () => (post) => {
+    if (!post.fields.publishDate) {
+      return 'draftChip'
+    }
   }
 }

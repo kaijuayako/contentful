@@ -14,6 +14,7 @@
         </li>
         <li>{{ post.fields.body }}</li>
         <li>{{ post.fields.publishDate }}</li>
+        <span :is="draftChip(post)" />
         <li><nuxt-link :to="linkTo(post)">この記事を見る</nuxt-link></li>
       </ul>
     </template>
@@ -26,9 +27,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import client from '~/plugins/contentful'
+import draftChip from '~/components/posts/draftChip'
 export default {
+  components: {
+    draftChip
+  },
   computed: {
-    ...mapGetters(['setEyeCatch']),
+    ...mapGetters(['setEyeCatch', 'draftChip']),
     linkTo: () => (obj) => {
       return {
         name: 'posts-slug',
