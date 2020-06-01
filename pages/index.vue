@@ -15,7 +15,11 @@
         <li>{{ post.fields.body }}</li>
         <li>{{ post.fields.publishDate }}</li>
         <span :is="draftChip(post)" />
-        <li><nuxt-link :to="linkTo(post)">この記事を見る</nuxt-link></li>
+        <li>
+          <nuxt-link :to="linkTo('posts',post)">
+            この記事を見る
+          </nuxt-link>
+        </li>
       </ul>
     </template>
     <template v-else>
@@ -25,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import client from '~/plugins/contentful'
 import draftChip from '~/components/posts/draftChip'
 export default {
@@ -33,15 +37,8 @@ export default {
     draftChip
   },
   computed: {
-    ...mapGetters(['setEyeCatch', 'draftChip']),
-    linkTo: () => (obj) => {
-      return {
-        name: 'posts-slug',
-        params: {
-          slug: obj.fields.slug
-        }
-      }
-    }
+    ...mapState(['posts']),
+    ...mapGetters(['setEyeCatch', 'draftChip', 'linkTo'])
   },
   async asyncData ({ env }) {
     let posts = []
