@@ -14,6 +14,7 @@
         </li>
         <li>{{ post.fields.body }}</li>
         <li>{{ post.fields.publishDate }}</li>
+        <li>{{ post.fields.category.fields.name }}</li>
         <span :is="draftChip(post)" />
         <li>
           <nuxt-link :to="linkTo('posts',post)">
