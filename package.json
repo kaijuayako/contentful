@@ -16,7 +16,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "contentful": "^7.14.4",
     "nuxt": "^2.0.0",
-    "vuetify": "^2.2.33"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
